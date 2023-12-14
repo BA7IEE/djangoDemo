@@ -15,12 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
+from rest_framework.routers import DefaultRouter
 
+from api.views import MissingPersonViewSet
 from users.views import FileView
+
+router = DefaultRouter()
+router.register(r'missing-people', MissingPersonViewSet, basename='missing-people')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/user/', include('users.urls')),
     re_path(r'file/image/(.+?)/', FileView.as_view()),
+    path('api/', include(router.urls)),
 
 ]
